@@ -1,40 +1,38 @@
 import isw from "../reports.json";
-import { SLICE_LENGTH } from "./constants";
-import { extractFullDate, getRelevantContent } from "./utils";
-import { WordTokenizer } from "natural";
-import {
-  pipe,
-  removePunctuation,
-  removeSmallWords,
-  removeStopWords,
-  transformNumberToWords,
-} from "./textFiltering";
-import { executePythonLemmatization } from "./py-communication";
+import { DocumentManager } from "./utils/DocumentManager";
+import { Tf_Idf } from "./utils/Tf_Idf";
 
-const record = isw[2];
+// @ts-ignore
+const record: { date: string; content: string } = isw[2];
+// @ts-ignore
+const record2: { date: string; content: string } = isw[3];
 
 let processedRecord = JSON.parse(JSON.stringify(record));
 
-const authorsDateContent = record.content.slice(0, SLICE_LENGTH);
-const splitNewLines = authorsDateContent.split("\n");
+const tfIdf = new Tf_Idf();
 
-const extractedFullDate = extractFullDate(splitNewLines);
+const tfIdfs = async () => {
+  const doc1 = new DocumentManager(record);
+  const doc2 = new DocumentManager(record2);
 
-const relevantContent = getRelevantContent(record.content, extractedFullDate);
+  await doc1.parseContent();
+  await doc2.parseContent();
 
-const tokenizer = new WordTokenizer();
-const tokens = tokenizer.tokenize(relevantContent);
-processedRecord.contentToken = tokens
-console.log("tokens length:", tokens.length);
+  const result = tfIdf.prepareMeasurements([doc1, doc2]);
+  console.log(result);
+};
 
-pipe(
-  tokens,
-  transformNumberToWords,
-  removePunctuation,
-  removeStopWords,
-  removeSmallWords,
-  executePythonLemmatization
-).then((pipedResult) => {
-  console.log("piped result:", pipedResult);
-  console.log("piped length:", pipedResult.length);
-});
+tfIdfs().then();
+
+// const transformer = new TextTransformer();
+// transformer.pipe(
+//   tokens,
+//   TextTransformations.NumbersToWords,
+//   TextTransformations.RemovePunctuation,
+//   TextTransformations.RemoveStopWords,
+//   TextTransformations.RemoveSmallWords,
+//   TextTransformations.Lemmatize
+// ).then((transformerResult) => {
+//   console.log("transformer result:", transformerResult);
+//   console.log("transformer length:", transformerResult.length);
+// });

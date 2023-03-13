@@ -1,20 +1,20 @@
-import { MONTHS, PARTS_OF_DAY, TIMES } from "../constants";
+import { MONTHS, PARTS_OF_DAY, TIMES } from "./constants";
 
-export class TextManipulator {
+export class DateManipulator {
 
-  public extractDate(fullDate: string): string {
+  public static extractDate(fullDate: string): string {
     const [date] = fullDate.split(",");
     return date;
   }
 
-  public extractFullDate(splitText: string[]): string {
+  public static extractFullDate(splitText: string[]): string {
     const dateTimeString = splitText.find((text) => this.isDateIncluded(text));
     if (!dateTimeString) return "";
 
     return dateTimeString;
   }
 
-  public isDateIncluded(text: string): boolean {
+  public static isDateIncluded(text: string): boolean {
     let result = false
     const lowercaseText = text.toLowerCase();
     MONTHS.forEach((month) => {
