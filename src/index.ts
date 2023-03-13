@@ -3,36 +3,27 @@ import { DocumentManager } from "./utils/DocumentManager";
 import { Tf_Idf } from "./utils/Tf_Idf";
 
 // @ts-ignore
-const record: { date: string; content: string } = isw[2];
+// const record: { date: string; content: string } = isw[2];
 // @ts-ignore
-const record2: { date: string; content: string } = isw[3];
+// const record2: { date: string; content: string } = isw[3];
 
-let processedRecord = JSON.parse(JSON.stringify(record));
+const records: { date: string; content: string }[] = isw.slice(1, isw.length - 1);
 
 const tfIdf = new Tf_Idf();
 
 const tfIdfs = async () => {
-  const doc1 = new DocumentManager(record);
-  const doc2 = new DocumentManager(record2);
+  // const documents: DocumentManager[] = [];
 
-  await doc1.parseContent();
-  await doc2.parseContent();
+  const documents: DocumentManager[] = await Promise.all(
+    records.map(async (record) => {
+      const doc = new DocumentManager(record);
+      await doc.parseContent();
+      return doc;
+    })
+  );
 
-  const result = tfIdf.prepareMeasurements([doc1, doc2]);
+  const result = tfIdf.prepareMeasurements(documents);
   console.log(result);
 };
 
 tfIdfs().then();
-
-// const transformer = new TextTransformer();
-// transformer.pipe(
-//   tokens,
-//   TextTransformations.NumbersToWords,
-//   TextTransformations.RemovePunctuation,
-//   TextTransformations.RemoveStopWords,
-//   TextTransformations.RemoveSmallWords,
-//   TextTransformations.Lemmatize
-// ).then((transformerResult) => {
-//   console.log("transformer result:", transformerResult);
-//   console.log("transformer length:", transformerResult.length);
-// });

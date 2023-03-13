@@ -8,17 +8,32 @@ export class Tf_Idf {
     this.tfIdf = new TfIdf();
   }
   public prepareMeasurements(documents: DocumentManager[]) {
-    const documentsContents: string[][] = documents.map(
+    const documentsBigrams: string[][] = documents.map(
       (document) => document.resultDocumentObject.relevantContent_final
     );
-    documentsContents.forEach((documentContent) => {
-      this.tfIdf.addDocument(documentContent);
+
+    let totalBigrams: string[] = [];
+    totalBigrams = totalBigrams.concat(...documentsBigrams);
+
+    const tfDictionary: Map<string, number> = new Map<string, number>();
+    totalBigrams.forEach((bigram) => {
+      const value = (tfDictionary.get(bigram) || 0) + 1;
+      tfDictionary.set(bigram, value);
     });
 
-    return documents.map((document, index) => {
-      return this.tfIdf.listTerms(index);
-    }, this)
+    const idfDictionary: Map<string, number> = new Map<string, number>();
+    totalBigrams.forEach((bigram) => {
+      const count = documentsBigrams.filter((documentBigrams) =>
+        documentBigrams.includes(bigram)
+      ).length;
+      idfDictionary.set(bigram, Math.log(documentsBigrams.length / count));
+    });
+
+    const tfIdf: Map<string, number> = new Map<string, number>();
+    tfDictionary.forEach((value, key) => {
+      tfIdf.set(key, (idfDictionary.get(key) || 0) * value);
+    });
+
+    return tfIdf;
   }
-
-
 }

@@ -33,8 +33,8 @@ export class DocumentManager {
 
     const extractedContentDate = DateManipulator.extractFullDate(splitSlice);
 
-    this.resultDocumentObject.contentDate =
-      this.getContentDate(extractedContentDate);
+    // this.resultDocumentObject.contentDate =
+    //   this.getContentDate(extractedContentDate);
     this.resultDocumentObject.relevantContent =
       this.getRelevantContent(extractedContentDate);
   }
