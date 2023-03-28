@@ -1,0 +1,8 @@
+{
+  "name": "rush-select",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@telia/rush-select": "^0.13.1"
+  }
+}
