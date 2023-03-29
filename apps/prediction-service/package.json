@@ -2,7 +2,7 @@
   "name": "prediction-service",
   "version": "1.0.0",
   "scripts": {
-    "start": "echo \"prediction-service started !\"",
+    "start": "ts-node src/index.ts",
     "build": "echo \"prediction-service built !\""
   },
   "dependencies": {
