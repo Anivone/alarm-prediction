@@ -1,6 +1,6 @@
 import { removeStopwords as libRemoveStopWords } from "stopword";
 import converter from "number-to-words";
-import { NGrams } from "natural";
+import { LancasterStemmer, NGrams, PorterStemmer } from "natural";
 import stopWords from "../../../../stopWords.json";
 
 export const removeStopWords = (words: string[]) => {
@@ -17,7 +17,11 @@ export const transformNumberToWords = (words: string[]) => {
     if (Number.isNaN(parseInt(word))) {
       result.push(word);
     } else {
-      result.push(converter.toWords(word));
+      try {
+        result.push(converter.toWords(word));
+      } catch (err) {
+        result.push(word);
+      }
     }
   }
   return result;
@@ -51,6 +55,26 @@ export const lowercase = (words: string[]) => {
 
   return result;
 };
+
+export const lancasterStem = (words: string[]) => {
+  const result: string[] = [];
+
+  for (const word of words) {
+    result.push(LancasterStemmer.stem(word));
+  }
+
+  return result;
+}
+
+export const porterStem = (words: string[]) => {
+  const result: string[] = [];
+
+  for (const word of words) {
+    result.push(PorterStemmer.stem(word));
+  }
+
+  return result;
+}
 
 export const bigram = (words: string[]) => {
   return NGrams.bigrams(words).map((array) => array.join(" "));

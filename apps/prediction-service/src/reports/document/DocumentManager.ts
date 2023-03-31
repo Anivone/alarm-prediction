@@ -9,7 +9,7 @@ export type Document = {
   content: IswReport["content"];
   relevantContent?: string;
   preprocessed_final?: string[];
-  tfIdf?: Map<string, number>;
+  tfIdf?: Record<string, number>
 };
 
 export class DocumentManager {
@@ -18,7 +18,7 @@ export class DocumentManager {
 
   constructor(iswReport: IswReport) {
     this.document = iswReport;
-    this.document.tfIdf = new Map();
+    this.document.tfIdf = {};
     this.tokenizer = new WordTokenizer();
 
     this.prepareContent();

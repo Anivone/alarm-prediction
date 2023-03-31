@@ -5,7 +5,9 @@ import {
 } from "./types";
 import {
   bigram,
+  lancasterStem,
   lowercase,
+  porterStem,
   removePunctuation,
   removeSmallWords,
   removeStopWords,
@@ -37,5 +39,7 @@ const textTransformations: Transformations<string[]> = {
   [TextTransformation.RemovePunctuation]: removePunctuation,
   [TextTransformation.ToLowercase]: lowercase,
   [TextTransformation.Lemmatize]: lemmatize,
+  [TextTransformation.LancasterStem]: lancasterStem,
+  [TextTransformation.PorterStem]: porterStem,
   [TextTransformation.Bigram]: bigram,
 };

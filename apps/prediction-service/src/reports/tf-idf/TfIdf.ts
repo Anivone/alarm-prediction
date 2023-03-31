@@ -1,10 +1,11 @@
 import { Document, DocumentManager } from "../document/DocumentManager";
-import { getAllTerms } from "./utils";
+import { mergeSort } from "./utils";
+import all_terms from "../../../all_terms.json";
 
 export class TfIdf {
   public static calculate(documentManagers: DocumentManager[]) {
     const documents = documentManagers.map(({ document }) => document);
-    const allTerms = getAllTerms(documents);
+    const allTerms = all_terms as string[];
 
     for (const term of allTerms) {
       let allDocumentsTermFrequency = 0;
@@ -22,13 +23,19 @@ export class TfIdf {
           }
         }
 
-        const documentIDF = Math.log(documents.length / allDocumentsTermFrequency);
+        const documentIDF = Math.log(
+          documents.length / allDocumentsTermFrequency
+        );
         const documentTfIdf = documentTF * documentIDF;
 
-        if (documentTfIdf > 0) {
-          document.tfIdf!.set(term, documentTfIdf);
-        }
+        document.tfIdf![term] = documentTfIdf;
       }
     }
+  }
+
+  public static sortTfIdf(document: Document) {
+    if (!document.tfIdf) return;
+    const sortedEntries = mergeSort([...Object.entries(document.tfIdf)], "DESC")
+    document.tfIdf = Object.fromEntries(sortedEntries);
   }
 }
