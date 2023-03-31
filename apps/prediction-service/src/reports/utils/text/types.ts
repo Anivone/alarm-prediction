@@ -12,6 +12,8 @@ export enum TextTransformation {
   RemovePunctuation = "noPunctuation",
   ToLowercase = "lowercase",
   Lemmatize = "lemmatize",
+  LancasterStem = "lancasterStem",
+  PorterStem = "porterStem",
   Bigram = "bigram",
 }
 

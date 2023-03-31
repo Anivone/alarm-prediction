@@ -30,4 +30,9 @@ export class DateManager {
 
     return monthIncluded && timeIncluded && partIncluded;
   }
+
+  public static formatDate(date: string) {
+    const [dateString] = new Date(date).toISOString().split('T');
+    return dateString;
+  }
 }

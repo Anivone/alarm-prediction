@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "scripts": {
     "start": "ts-node src/index.ts",
+    "preprocess": "ts-node src/preprocess.ts",
+    "preprocess:sort": "ts-node src/preprocessSort.ts",
+    "preprocess:all-terms": "ts-node ",
     "build": "echo \"prediction-service built !\""
   },
   "dependencies": {
     "natural": "^6.2.0",
     "number-to-words": "^1.2.4",
-    "stopword": "^2.0.7"
+    "stopword": "^2.0.7",
+    "csv-writer": "^1.6.0"
   },
   "devDependencies": {
     "@types/natural": "^5.1.2",
