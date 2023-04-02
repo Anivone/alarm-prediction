@@ -3,7 +3,7 @@ import { IswReport } from "./types";
 import { DocumentManager } from "./reports/document/DocumentManager";
 import { TextTransformation } from "./reports/utils/text/types";
 import { TfIdf } from "./reports/tf-idf/TfIdf";
-import { saveToCsv } from "./reports/utils/file/csv";
+import { saveToCsv, saveToCsv_streams } from "./reports/utils/file/csv";
 
 const transformations = [
   TextTransformation.ToLowercase,
@@ -15,7 +15,7 @@ const transformations = [
   TextTransformation.Bigram,
 ];
 
-const iswReports = (isw as IswReport[]).slice(1, 20);
+const iswReports = (isw as IswReport[]).slice(1);
 
 const run = async () => {
   const documentManagers = await Promise.all(
@@ -25,8 +25,11 @@ const run = async () => {
         documentManager.processDocument(transformations)
       )
   );
-  TfIdf.calculate(documentManagers);
-  await saveToCsv(documentManagers.map(({ document }) => document));
+  const documents = documentManagers.map(({ document }) => document);
+
+  TfIdf.calculate(documents);
+  // await saveToCsv(documents);
+  saveToCsv_streams(documents);
 };
 
-run();
+run().then();

@@ -1,11 +1,9 @@
 import { Document, DocumentManager } from "../document/DocumentManager";
-import { mergeSort } from "./utils";
-import all_terms from "../../../all_terms.json";
+import { getAllTerms, mergeSort } from "./utils";
 
 export class TfIdf {
-  public static calculate(documentManagers: DocumentManager[]) {
-    const documents = documentManagers.map(({ document }) => document);
-    const allTerms = all_terms as string[];
+  public static calculate(documents: Document[]) {
+    const allTerms = getAllTerms(documents);
 
     for (const term of allTerms) {
       let allDocumentsTermFrequency = 0;
@@ -30,6 +28,10 @@ export class TfIdf {
 
         document.tfIdf![term] = documentTfIdf;
       }
+    }
+
+    for (const document of documents) {
+      TfIdf.sortTfIdf(document);
     }
   }
 
