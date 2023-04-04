@@ -3,6 +3,7 @@ import { Document } from "../../document/DocumentManager";
 import path from "path";
 import { DateManager } from "../date/DateManager";
 import fs from "fs";
+import { getAllTerms, getAllTfIdfTerms } from "../../tf-idf/utils";
 
 const CSV_RESULT_FILE_PATH = path.join(
   process.cwd(),
@@ -12,36 +13,17 @@ const CSV_SEPARATOR = ";";
 
 type CsvRecord = { date: string; tf_idf: string };
 
-export const saveToCsv = async (documents: Document[]) => {
-  const csvWriter = csw_writer.createObjectCsvWriter({
-    path: CSV_RESULT_FILE_PATH,
-    header: [
-      { id: "date", title: "date" },
-      { id: "tf_idf", title: "keywords" },
-    ],
-  });
-
-  const records: CsvRecord[] = [];
-  for (const document of documents) {
-    records.push({
-      date: DateManager.formatDate(document.date),
-      tf_idf: JSON.stringify(document.tfIdf!),
-    });
-  }
-
-  await csvWriter.writeRecords(records);
-  console.log("CSV successfully written!");
-};
-
 export const saveToCsv_streams = (documents: Document[]) => {
+  const allTfIdfTerms = getAllTfIdfTerms(documents);
   const stream = fs.createWriteStream(CSV_RESULT_FILE_PATH);
-  const headers: string[] = ["date", "keywords"];
+  const headers: string[] = ["date", ...allTfIdfTerms];
   stream.write(headers.join(CSV_SEPARATOR) + "\n");
 
   for (const document of documents) {
+    const tfIdf = document.tfIdf!;
     const data = [
       DateManager.formatDate(document.date),
-      JSON.stringify(document.tfIdf!),
+      ...allTfIdfTerms.map((term) => tfIdf[term] ?? 0),
     ];
     stream.write(data.join(CSV_SEPARATOR) + "\n");
   }

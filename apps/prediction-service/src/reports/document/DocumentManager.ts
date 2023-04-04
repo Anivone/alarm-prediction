@@ -28,7 +28,6 @@ export class DocumentManager {
     const extractedContentDate = DateManager.extractDateFromReport(
       this.document
     );
-    this.document.date = parseDate(extractedContentDate) ?? this.document.date;
     this.document.relevantContent = extractRelevantContent(
       extractedContentDate,
       this.document.content

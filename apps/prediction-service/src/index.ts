@@ -3,7 +3,7 @@ import { IswReport } from "./types";
 import { DocumentManager } from "./reports/document/DocumentManager";
 import { TextTransformation } from "./reports/utils/text/types";
 import { TfIdf } from "./reports/tf-idf/TfIdf";
-import { saveToCsv, saveToCsv_streams } from "./reports/utils/file/csv";
+import { saveToCsv_streams } from "./reports/utils/file/csv";
 
 const transformations = [
   TextTransformation.ToLowercase,
@@ -12,7 +12,7 @@ const transformations = [
   TextTransformation.RemoveStopWords,
   TextTransformation.RemoveSmallWords,
   TextTransformation.LancasterStem,
-  TextTransformation.Bigram,
+  // TextTransformation.Bigram,
 ];
 
 const iswReports = (isw as IswReport[]).slice(1);
@@ -28,7 +28,6 @@ const run = async () => {
   const documents = documentManagers.map(({ document }) => document);
 
   TfIdf.calculate(documents);
-  // await saveToCsv(documents);
   saveToCsv_streams(documents);
 };
 
