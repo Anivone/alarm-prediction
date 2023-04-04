@@ -1,10 +1,20 @@
-import { Document, DocumentManager } from "../document/DocumentManager";
+import { Document } from "../document/DocumentManager";
+import { TF_IDF_VECTOR_LIMIT } from "./constants";
 
 export const getAllTerms = (documents: Document[]): string[] => {
   const allDuplicatedTerms = documents
     .map((document) => document.preprocessed_final!)
     .flat();
   return [...new Set(allDuplicatedTerms)];
+};
+
+export const getAllTfIdfTerms = (documents: Document[]): string[] => {
+  const allDuplicatedTfIdfTerms = documents
+    .map((document) =>
+      Object.keys(document.tfIdf!).slice(0, TF_IDF_VECTOR_LIMIT)
+    )
+    .flat();
+  return [...new Set(allDuplicatedTfIdfTerms)];
 };
 
 type TermTfIdf = [term: string, tfIdf: number];
