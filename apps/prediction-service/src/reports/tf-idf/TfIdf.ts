@@ -22,6 +22,8 @@ export class TfIdf {
           }
         }
 
+        documentTF = documentTF / document.preprocessed_final!.length;
+
         const documentIDF = Math.log(
           documents.length / allDocumentsTermFrequency
         );
