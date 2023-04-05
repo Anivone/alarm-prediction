@@ -14,16 +14,17 @@ const CSV_SEPARATOR = ";";
 type CsvRecord = { date: string; tf_idf: string };
 
 export const saveToCsv_streams = (documents: Document[]) => {
-  const allTfIdfTerms = getAllTfIdfTerms(documents);
+  // const allTfIdfTerms = getAllTfIdfTerms(documents);
   const stream = fs.createWriteStream(CSV_RESULT_FILE_PATH);
-  const headers: string[] = ["date", ...allTfIdfTerms];
+  const headers: string[] = ["date", "keywords"];
   stream.write(headers.join(CSV_SEPARATOR) + "\n");
 
   for (const document of documents) {
     const tfIdf = document.tfIdf!;
     const data = [
       DateManager.formatDate(document.date),
-      ...allTfIdfTerms.map((term) => tfIdf[term] ?? 0),
+      JSON.stringify(tfIdf)
+      // ...allTfIdfTerms.map((term) => tfIdf[term] ?? 0),
     ];
     stream.write(data.join(CSV_SEPARATOR) + "\n");
   }

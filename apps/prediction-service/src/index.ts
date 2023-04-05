@@ -4,6 +4,7 @@ import { DocumentManager } from "./reports/document/DocumentManager";
 import { TextTransformation } from "./reports/utils/text/types";
 import { TfIdf } from "./reports/tf-idf/TfIdf";
 import { saveToCsv_streams } from "./reports/utils/file/csv";
+import { getAllTerms, getAllTfIdfTerms } from "./reports/tf-idf/utils";
 
 const transformations = [
   TextTransformation.ToLowercase,
