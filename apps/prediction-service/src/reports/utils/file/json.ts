@@ -1,7 +1,7 @@
 import { Document } from "../../document/DocumentManager";
 import fs from "fs";
 import path from "path";
-import { getAllTerms } from "../../tf-idf/utils";
+import { getAllTerms, getAllTfIdfTerms } from "../../tf-idf/utils";
 const jsonStream = require("JSONStream");
 
 const PARSED_REPORTS_FILE_NAME = "parsed_reports.json";
@@ -29,6 +29,16 @@ export const saveAllTermsToJson = (documents: Document[]) => {
   fs.writeFile(
     getFilePath(ALL_TERMS_FILE_NAME),
     JSON.stringify(getAllTerms(documents)),
+    () => {
+      console.log("JSON all_terms file successfully written!");
+    }
+  );
+};
+
+export const saveAllTfIdfTermsToJson = (documents: Document[]) => {
+  fs.writeFile(
+    getFilePath(ALL_TERMS_FILE_NAME),
+    JSON.stringify(getAllTfIdfTerms(documents)),
     () => {
       console.log("JSON all_terms file successfully written!");
     }
