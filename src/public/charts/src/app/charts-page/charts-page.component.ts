@@ -106,6 +106,7 @@ get startDate() {
 get endDate() {
   return new Date(this.form.get("alarmForm")?.get("dateEnd")?.value as Date)
 }
+
   countAverage() {
     const cityAveragesMap = new Map<string, any>();
     for (const data of this.mergedData) {
