@@ -71,3 +71,11 @@ common/autoinstallers/*/.npmrc
 
 # Heft temporary files
 .heft
+node_modules
+package-lock.json
+src/public/assets/merged_dataset_inrow.csv
+merged.json
+src/public/charts/.vscode
+.idea
+src/public/charts/.editorconfig
+src/public/charts/.gitignore
