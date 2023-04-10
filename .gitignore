@@ -73,9 +73,9 @@ common/autoinstallers/*/.npmrc
 .heft
 node_modules
 package-lock.json
-src/public/assets/merged_dataset_inrow.csv
+apps/charts/public/assets/merged_dataset_inrow.csv
 merged.json
-src/public/charts/.vscode
+apps/charts/public/charts/.vscode
 .idea
-src/public/charts/.editorconfig
-src/public/charts/.gitignore
+apps/charts/public/charts/.editorconfig
+apps/charts/public/charts/.gitignore
