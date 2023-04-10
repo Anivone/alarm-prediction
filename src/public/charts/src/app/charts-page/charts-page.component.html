@@ -102,5 +102,36 @@
 
   </app-null-values-line-chart>
   <app-pie-chart *ngIf="this.pieChart.series.length" [data]="pieChart" class="mt-20"></app-pie-chart>
+  <app-column-chart *ngIf="avgPrecipChart.series.length" class="mt-20"
+                    [series]="avgPrecipChart.series"
+                    [labels]="avgPrecipChart.labels"
+                    [title]="avgPrecipChart.title"
+                    [color]="avgPrecipChart.color"
+  ></app-column-chart>
+  <app-column-chart *ngIf="avgTempChart.series.length" class="mt-20"
+                    [series]="avgTempChart.series"
+                    [labels]="avgTempChart.labels"
+                    [title]="avgTempChart.title"
+                    [color]="avgTempChart.color"
+  ></app-column-chart>
+  <app-column-chart *ngIf="alarmsNumberChart.series.length" class="mt-20"
+                    [series]="alarmsNumberChart.series"
+                    [labels]="alarmsNumberChart.labels"
+                    [title]="alarmsNumberChart.title"
+                    [color]="alarmsNumberChart.color">
+  </app-column-chart>
+  <app-column-chart *ngIf="weatherConditionNumberChart.series.length" class="mt-20"
+                    [series]="weatherConditionNumberChart.series"
+                    [labels]="weatherConditionNumberChart.labels"
+                    [title]="weatherConditionNumberChart.title"
+                    [color]="weatherConditionNumberChart.color">
+  </app-column-chart>
+
+  <app-column-chart *ngIf="tfIdfValuesChart.series.length" class="mt-20"
+                    [series]="tfIdfValuesChart.series"
+                    [labels]="tfIdfValuesChart.labels"
+                    [title]="tfIdfValuesChart.title"
+                    [color]="tfIdfValuesChart.color">
+  </app-column-chart>
 </div>
 
