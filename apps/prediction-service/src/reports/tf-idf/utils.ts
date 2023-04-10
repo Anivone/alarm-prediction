@@ -1,5 +1,6 @@
 import { Document } from "../document/DocumentManager";
 import { TF_IDF_VECTOR_LIMIT } from "./constants";
+import { TfIdf } from "./TfIdf";
 
 export const getAllTerms = (documents: Document[]): string[] => {
   const allDuplicatedTerms = documents
@@ -16,6 +17,11 @@ export const getAllTfIdfTerms = (documents: Document[]): string[] => {
     .flat();
   return [...new Set(allDuplicatedTfIdfTerms)];
 };
+
+export const getAverageTopTerms = (documents: Document[]): string[] => {
+  const averageTopTfIdf = TfIdf.averageTopTfIdf(documents);
+  return Object.keys(averageTopTfIdf);
+}
 
 type TermTfIdf = [term: string, tfIdf: number];
 type SortOrder = "ASC" | "DESC";

@@ -27,6 +27,16 @@ export const transformNumberToWords = (words: string[]) => {
   return result;
 };
 
+export const removeNumbers = (words: string[]) => {
+  const result: string[] = [];
+  for (const word of words) {
+    if (Number.isNaN(parseInt(word))) {
+      result.push(word);
+    }
+  }
+  return result;
+}
+
 export const removePunctuation = (words: string[]) => {
   const result: string[] = [];
 

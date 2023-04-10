@@ -1,6 +1,9 @@
 import { Document } from "../document/DocumentManager";
-import { getAllTerms, mergeSort } from "./utils";
-import { TF_IDF_VECTOR_LIMIT } from "./constants";
+import { getAllTerms, getAllTfIdfTerms, mergeSort } from "./utils";
+import {
+  TF_IDF_RELEVANT_CONTENT_OFFSET,
+  TF_IDF_VECTOR_LIMIT,
+} from "./constants";
 
 export class TfIdf {
   public static calculate(documents: Document[], filterZero = false) {
@@ -34,11 +37,6 @@ export class TfIdf {
         document.tfIdf![term] = documentTfIdf;
       }
     }
-
-    for (const document of documents) {
-      TfIdf.sortTfIdf(document);
-      this.sliceTfIdf(document);
-    }
   }
 
   public static sortTfIdf(document: Document) {
@@ -50,9 +48,47 @@ export class TfIdf {
     document.tfIdf = Object.fromEntries(sortedEntries);
   }
 
+  public static averageTopTfIdf(documents: Document[]): Record<string, number> {
+    const totalDictionary: Record<string, number> = {};
+
+    for (const document of documents) {
+      const tfIdf = document.tfIdf!;
+      for (const [key, value] of Object.entries(tfIdf)) {
+        totalDictionary[key] = (totalDictionary[key] ?? 0) + value;
+      }
+    }
+
+    for (const key of Object.keys(totalDictionary)) {
+      totalDictionary[key] /= documents.length;
+    }
+
+    const totalDocument = { tfIdf: totalDictionary } as Document;
+
+    this.sortTfIdf(totalDocument);
+    this.sliceTfIdf(totalDocument);
+
+    return totalDocument.tfIdf!;
+  }
+
   private static sliceTfIdf(document: Document) {
     document.tfIdf = Object.fromEntries(
-      Object.entries(document.tfIdf!).slice(0, TF_IDF_VECTOR_LIMIT)
+      Object.entries(document.tfIdf!).slice(
+        TF_IDF_RELEVANT_CONTENT_OFFSET,
+        TF_IDF_RELEVANT_CONTENT_OFFSET + TF_IDF_VECTOR_LIMIT
+      )
     );
+  }
+
+  public static mapTfIdfToTop(
+    documents: Document[],
+    averageTop: Record<string, number>
+  ) {
+    for (const document of documents) {
+      document.tfIdf = Object.fromEntries(
+        Object.entries(document.tfIdf!).filter(([term]) =>
+          Boolean(averageTop[term])
+        )
+      );
+    }
   }
 }
