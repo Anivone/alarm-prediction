@@ -1,1 +1,2 @@
 export const TF_IDF_VECTOR_LIMIT = 100;
+export const TF_IDF_RELEVANT_CONTENT_OFFSET = 30;

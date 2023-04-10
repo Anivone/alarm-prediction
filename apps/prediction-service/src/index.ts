@@ -3,13 +3,18 @@ import { IswReport } from "./types";
 import { DocumentManager } from "./reports/document/DocumentManager";
 import { TextTransformation } from "./reports/utils/text/types";
 import { TfIdf } from "./reports/tf-idf/TfIdf";
-import { saveToCsv_streams, saveToCsvVectorMapped_streams } from "./reports/utils/file/csv";
+import {
+  saveToCsv_streams,
+  saveToCsvTermColumns_streams,
+  saveToCsvVectorMapped_streams
+} from "./reports/utils/file/csv";
 import { getAllTerms, getAllTfIdfTerms } from "./reports/tf-idf/utils";
 import { saveAllTfIdfTermsToJson } from "./reports/utils/file/json";
 
 const transformations = [
   TextTransformation.ToLowercase,
-  TextTransformation.NumbersToWords,
+  // TextTransformation.NumbersToWords,
+  TextTransformation.RemoveNumbers,
   TextTransformation.RemovePunctuation,
   TextTransformation.RemoveStopWords,
   TextTransformation.RemoveSmallWords,
@@ -30,9 +35,15 @@ const run = async () => {
   const documents = documentManagers.map(({ document }) => document);
 
   TfIdf.calculate(documents);
+  const averageTop = TfIdf.averageTopTfIdf(documents);
+  TfIdf.mapTfIdfToTop(documents, averageTop);
+
+  console.log(documents[0].tfIdf);
+
   // saveToCsv_streams(documents);
   // saveToCsvVectorMapped_streams(documents);
-  saveAllTfIdfTermsToJson(documents);
+  // saveAllTfIdfTermsToJson(documents);
+  saveToCsvTermColumns_streams(documents, Object.keys(averageTop));
 };
 
 run().then();

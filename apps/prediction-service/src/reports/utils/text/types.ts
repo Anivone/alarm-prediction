@@ -9,6 +9,7 @@ export enum TextTransformation {
   RemoveStopWords = "noStopWords",
   RemoveSmallWords = "noSmallWords",
   NumbersToWords = "numbersToWords",
+  RemoveNumbers = "removeNumbers",
   RemovePunctuation = "noPunctuation",
   ToLowercase = "lowercase",
   Lemmatize = "lemmatize",

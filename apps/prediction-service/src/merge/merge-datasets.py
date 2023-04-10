@@ -37,12 +37,12 @@ def isNaN(num):
     return num != num
 
 def getTimestamp(ts: pd.Timestamp):
-    return int(ts.timestamp() * 1000)
+    return int(ts.timestamp())
 
 
 df_isw = pd.read_csv(f"{INPUT_DATA_FOLDER}/{REPORTS_DATA_FILE}", sep=";")
 
-df_isw["date_datetime"] = pd.to_datetime(df_isw["date"])
+df_isw["date_datetime"] = pd.to_datetime(df_isw["isw_date"])
 df_isw['date_tomorrow_datetime'] = df_isw['date_datetime'].apply(lambda x: x + datetime.timedelta(days=1))
 
 df_isw = df_isw.rename(columns={"date_datetime": "report_date"})
@@ -167,11 +167,12 @@ print(df_weather_v4.shape)
 
 df_weather_isw = df_weather_v4.merge(df_isw,
                                      how="left",
-                                     left_on=["event_day_date"],
+                                     left_on=["day_datetime"],
                                      right_on=["date_tomorrow_datetime"])
 
 print(df_weather_isw.shape)
 
+df_weather_isw.iloc[:, df_weather_isw.columns.get_loc('isw_date')+1:] = df_weather_isw.iloc[:, df_weather_isw.columns.get_loc('isw_date')+1:].fillna(0)
 
 df_weather_isw.to_csv(f"{OUTPUT_FOLDER}/merged_dataset.csv", sep=";", index=False)
 
