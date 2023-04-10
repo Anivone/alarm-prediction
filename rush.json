@@ -434,6 +434,12 @@
       "projectFolder": "apps/prediction-service",
       "reviewCategory": "services",
       "tags": [ "prediction" ]
+    },
+    {
+      "packageName": "charts",
+      "projectFolder": "apps/charts",
+      "reviewCategory": "front",
+      "tags": [ "front-end" ]
     }
   ]
 }
