@@ -1,7 +1,7 @@
 import fs from "fs";
 
-const csvFilePath: string = "../public/assets/merged_dataset_inrow.csv";
-const jsonFilePath: string = "../public/assets/merged.json";
+const csvFilePath: string = "../public/assets/isw.csv";
+const jsonFilePath: string = "../public/assets/isw.json";
 //
 // csv()
 //   .fromFile(csvFilePath)

@@ -4,24 +4,18 @@ import {
   Component,
   Input,
   OnChanges,
-  SimpleChange, SimpleChanges,
+  SimpleChanges,
   ViewChild
 } from "@angular/core";
 import {
-  ApexAxisChartSeries,
   ApexChart,
   ApexDataLabels,
   ApexFill,
-  ApexMarkers,
   ApexNonAxisChartSeries,
   ApexResponsive,
-  ApexStroke,
-  ApexTheme,
   ApexTitleSubtitle,
-  ApexTooltip,
-  ApexXAxis,
-  ApexYAxis,
-  ChartComponent, NgApexchartsModule
+  ChartComponent,
+  NgApexchartsModule
 } from "ng-apexcharts";
 
 export type ChartOptions = {
@@ -34,6 +28,7 @@ export type ChartOptions = {
   labels: any;
   colors: any;
 };
+
 @Component({
   selector: "app-pie-chart",
   templateUrl: "./pie-chart.component.html",
@@ -44,10 +39,11 @@ export type ChartOptions = {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PieChartComponent implements OnChanges{
+export class PieChartComponent implements OnChanges {
   @Input() data: any;
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions> | any;
+
   constructor(private changes: ChangeDetectorRef) {
 
   }
@@ -64,7 +60,7 @@ export class PieChartComponent implements OnChanges{
         },
         labels: this.data.labels,
         title: {
-          text: `Number of raid alarms il all cities (${this.data.startDate} - ${this.data.endDate})`
+          text: `${this.data.title}`
         },
         responsive: [
           {
@@ -79,12 +75,7 @@ export class PieChartComponent implements OnChanges{
             }
           }
         ],
-        colors: ['#FF5733', '#FFC300', '#C70039', '#4600ce', '#FF5733',
-          '#01FF70', '#FFC300', '#FF4136', '#ca11ff', '#01FF70',
-          '#FF851B', '#B10DC9', '#009fd9', '#FFDC00', '#F012BE',
-          '#008510', '#FF4136', '#a84b00', '#01FF70', '#85144b',
-          '#daa4c9', '#ffae00', '#FFDC00', '#0074D9']
-
+        colors: this.data.colors
       };
     }
   }

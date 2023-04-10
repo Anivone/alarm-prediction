@@ -44,7 +44,7 @@ export class NullValuesLineChartComponent implements OnChanges{
       this.chartOptions = {
         series: [
           {
-            name: this.parameter,
+            name: this.parameter.units,
             data: this.data
           }
         ],
@@ -83,7 +83,7 @@ export class NullValuesLineChartComponent implements OnChanges{
           }
         },
         title: {
-          text: `${this.parameter.title} During Raid Alarm in ${this.city} (${this.startDate} - ${this.endDate}))`
+          text: `${this.parameter.title} During Raid Alarms in ${this.city}`
         },
         tooltip: {
           intersect: true,
