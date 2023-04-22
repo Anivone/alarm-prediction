@@ -10,7 +10,7 @@ import pandas as pd
 import pickle
 
 MERGE_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.abspath(os.path.join(MERGE_DIRECTORY, "../../"))
+ROOT_DIR = os.path.abspath(os.path.join(MERGE_DIRECTORY, "../../../data/"))
 # This is your Project Root
 
 pd.set_option('display.max_columns', None)

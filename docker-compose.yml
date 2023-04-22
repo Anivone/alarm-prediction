@@ -1,0 +1,30 @@
+version: "3"
+services:
+  prediction-service:
+    build: ./apps/prediction-service
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    environment:
+      - SERVER_PORT=3000
+      - ML_SERVICE_HOST=ml-service
+      - ML_SERVICE_PORT=3001
+    depends_on:
+      - ml-service
+  ml-service:
+    build: ./apps/ml-service
+    ports:
+      - "3001:3001"
+    restart: unless-stopped
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - "5672:5672"  # RabbitMQ default port for AMQP
+      - "15672:15672"  # RabbitMQ management console port
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq  # Persist RabbitMQ data
+volumes:
+  rabbitmq_data:
