@@ -1,49 +1,29 @@
-import isw from "../reports.json";
-import { IswReport } from "./types";
-import { DocumentManager } from "./reports/document/DocumentManager";
-import { TextTransformation } from "./reports/utils/text/types";
-import { TfIdf } from "./reports/tf-idf/TfIdf";
-import {
-  saveToCsv_streams,
-  saveToCsvTermColumns_streams,
-  saveToCsvVectorMapped_streams
-} from "./reports/utils/file/csv";
-import { getAllTerms, getAllTfIdfTerms } from "./reports/tf-idf/utils";
-import { saveAllTfIdfTermsToJson } from "./reports/utils/file/json";
+import express from "express";
+import * as dotenv from "dotenv";
+import path from "path";
 
-const transformations = [
-  TextTransformation.ToLowercase,
-  // TextTransformation.NumbersToWords,
-  TextTransformation.RemoveNumbers,
-  TextTransformation.RemovePunctuation,
-  TextTransformation.RemoveStopWords,
-  TextTransformation.RemoveSmallWords,
-  TextTransformation.LancasterStem,
-  // TextTransformation.Bigram,
-];
+dotenv.config({
+  path: path.join(__dirname, "..", ".env"),
+});
 
-const iswReports = (isw as IswReport[]).slice(1);
+import cors from "cors";
+import router from "./server/predictions";
+import { readFileStreamed } from "./server/predictions/streams/readFileStreamed";
+import { getCsvFilePath } from "./data-manager/reports/utils/file/csv";
 
-const run = async () => {
-  const documentManagers = await Promise.all(
-    iswReports
-      .map((iswReport) => new DocumentManager(iswReport))
-      .map((documentManager) =>
-        documentManager.processDocument(transformations)
-      )
-  );
-  const documents = documentManagers.map(({ document }) => document);
 
-  TfIdf.calculate(documents);
-  const averageTop = TfIdf.averageTopTfIdf(documents);
-  TfIdf.mapTfIdfToTop(documents, averageTop);
+const PORT = process.env.SERVER_PORT;
 
-  console.log(documents[0].tfIdf);
+const app = express();
 
-  // saveToCsv_streams(documents);
-  // saveToCsvVectorMapped_streams(documents);
-  // saveAllTfIdfTermsToJson(documents);
-  saveToCsvTermColumns_streams(documents, Object.keys(averageTop));
-};
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors({ credentials: true }))
 
-run().then();
+app.use(router);
+
+app.listen(PORT, async () => {
+  console.log("prediction-service is listening on port", PORT);
+
+  await readFileStreamed(getCsvFilePath("merged_dataset.csv"));
+});

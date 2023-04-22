@@ -436,6 +436,12 @@
       "tags": [ "prediction" ]
     },
     {
+      "packageName": "ml-service",
+      "projectFolder": "apps/ml-service",
+      "reviewCategory": "services",
+      "tags": [ "ml"]
+    },
+    {
       "packageName": "charts",
       "projectFolder": "apps/charts",
       "reviewCategory": "front",

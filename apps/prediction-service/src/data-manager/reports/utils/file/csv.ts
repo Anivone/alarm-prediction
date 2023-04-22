@@ -1,15 +1,11 @@
-import * as csw_writer from "csv-writer";
 import { Document } from "../../document/DocumentManager";
 import path from "path";
 import { DateManager } from "../date/DateManager";
 import fs from "fs";
-import { getAllTerms, getAllTfIdfTerms, getAverageTopTerms } from "../../tf-idf/utils";
 
 const CSV_RESULT_FILE_PATH = "all_days_isw_reports_parsed.csv";
 const CSV_RESULT_VECTOR_MAPPED_FILE_PATH = "all_days_isw_reports_parsed_v2.csv";
 const CSV_SEPARATOR = ";";
-
-type CsvRecord = { date: string; tf_idf: string };
 
 export const saveToCsv_streams = (documents: Document[]) => {
   // const allTfIdfTerms = getAllTfIdfTerms(documents);
@@ -62,7 +58,6 @@ export const saveToCsvTermColumns_streams = (documents: Document[], terms: strin
     const tfIdf = document.tfIdf!;
     const data = [
       DateManager.formatDate(document.date),
-      // JSON.stringify(tfIdf),
       ...terms.map((term) => tfIdf[term] ?? 0),
     ];
     stream.write(data.join(CSV_SEPARATOR) + "\n");
@@ -73,4 +68,4 @@ export const saveToCsvTermColumns_streams = (documents: Document[], terms: strin
   });
 }
 
-const getCsvFilePath = (fileName: string) => path.join(process.cwd(), fileName);
+export const getCsvFilePath = (fileName: string) => path.join(process.cwd(), "data", fileName);
