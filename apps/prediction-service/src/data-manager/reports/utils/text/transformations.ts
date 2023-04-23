@@ -1,7 +1,7 @@
 import { removeStopwords as libRemoveStopWords } from "stopword";
 import converter from "number-to-words";
 import { LancasterStemmer, NGrams, PorterStemmer } from "natural";
-import stopWords from "../../../../../stopWords.json";
+import stopWords from "../../../../../data/stopWords.json";
 
 export const removeStopWords = (words: string[]) => {
   return libRemoveStopWords(words, stopWords);
