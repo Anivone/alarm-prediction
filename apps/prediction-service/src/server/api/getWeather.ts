@@ -5,6 +5,7 @@ import {
   REGIONS_LAT_LON,
 } from "../../constants/weather";
 import { REGIONS_ENG_UA } from "../../constants/constants";
+import { toCsvDateTime } from "./utils";
 
 export const getWeather = async (regionName: string): Promise<any[]> => {
   if (!Object.keys(REGIONS_LAT_LON).includes(regionName)) {
@@ -35,6 +36,8 @@ type HourlyWeather = {
   hour_windspeed: number;
   hour_winddir: number;
   hour_conditions: string;
+  day_datetime: string;
+  hour_datetimeEpoch: string;
 };
 
 const SLICE_LIMIT = 12;
@@ -63,13 +66,15 @@ const parseWeatherResponse = (
         latitude,
         longitude,
         timezone,
-        hour_datetime: hour_datetime + ":00",
+        hour_datetime: toCsvDateTime(hour_datetime + ":00"),
         hour_temp: hourly.temperature_2m[index],
         hour_precip: hourly.precipitation[index],
         hour_cloudcover: cloudCover,
         hour_windspeed: hourly.windspeed_10m[index],
         hour_winddir: hourly.winddirection_80m[index],
         hour_conditions: getHourConditions(snowfall, rain, visibilityLabel),
+        day_datetime: hour_datetime.split("T")[0],
+        hour_datetimeEpoch: Math.floor(new Date(hour_datetime).getTime() / 1000).toString()
       } as HourlyWeather;
     });
 };

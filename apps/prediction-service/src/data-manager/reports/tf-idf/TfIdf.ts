@@ -91,4 +91,17 @@ export class TfIdf {
       );
     }
   }
+
+  public static mapTfIdfToDefinedTerms(
+    documents: Document[],
+    terms: string[],
+  ) {
+    for (const document of documents) {
+      const newTfIdf = {} as Record<string, number>;
+      for (const term of terms) {
+        newTfIdf[term] = document.tfIdf![term];
+      }
+      document.tfIdf = newTfIdf;
+    }
+  }
 }
