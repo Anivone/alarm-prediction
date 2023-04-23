@@ -43,7 +43,7 @@ export const getAlarms = async (regionName: string) => {
     currentDate.minute(0);
     currentDate.second(0);
 
-    const yesterdayMoment = moment(currentDate).subtract(2, "day");
+    const yesterdayMoment = moment(currentDate).subtract(1, "day");
 
     return startDate >= yesterdayMoment;
   });

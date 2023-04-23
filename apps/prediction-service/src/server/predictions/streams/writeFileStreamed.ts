@@ -9,6 +9,12 @@ export const writeCsvFileStreamed = (
   const filePath = getCsvFilePath(`${fileName}`);
 
   try {
+    fs.accessSync(getCsvFilePath());
+  } catch (error) {
+    fs.mkdirSync(getCsvFilePath());
+  }
+
+  try {
     fs.accessSync(filePath);
   } catch (error) {
     fs.writeFileSync(filePath, columns + "\n");
@@ -17,6 +23,11 @@ export const writeCsvFileStreamed = (
   const writeStream = fs.createWriteStream(filePath, {
     flags: "a",
   });
+
+  if (!rows.length) {
+    writeStream.end(`${fileName} has successfully been updated`);
+    return;
+  }
 
   for (const row of rows) {
     writeStream.write(row + "\n");

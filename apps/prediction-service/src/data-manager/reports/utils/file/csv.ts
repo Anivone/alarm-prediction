@@ -49,7 +49,10 @@ export const saveToCsvVectorMapped_streams = (documents: Document[]) => {
   });
 };
 
-export const saveToCsvTermColumns_streams = (documents: Document[], terms: string[]) => {
+export const saveToCsvTermColumns_streams = (
+  documents: Document[],
+  terms: string[]
+) => {
   const stream = fs.createWriteStream(getCsvFilePath(CSV_RESULT_FILE_PATH));
   const headers: string[] = ["isw_date", ...terms];
   stream.write(headers.join(CSV_SEPARATOR) + "\n");
@@ -66,6 +69,9 @@ export const saveToCsvTermColumns_streams = (documents: Document[], terms: strin
   stream.end(() => {
     console.log("CSV successfully written!");
   });
-}
+};
 
-export const getCsvFilePath = (fileName: string) => path.join(process.cwd(), "data", fileName);
+export const getCsvFilePath = (fileName?: string) =>
+  fileName
+    ? path.join(process.cwd(), "data", fileName)
+    : path.join(process.cwd(), "data");

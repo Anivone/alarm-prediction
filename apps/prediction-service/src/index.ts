@@ -13,7 +13,7 @@ import { getCsvFilePath } from "./data-manager/reports/utils/file/csv";
 import { getAlarms } from "./server/api/getAlarms";
 import { getWeather } from "./server/api/getWeather";
 import { writeAlarms, writeWeather } from "./server/api/utils";
-
+import { REGIONS_IDS } from "./constants/constants";
 
 const PORT = process.env.SERVER_PORT;
 
@@ -24,11 +24,27 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({ credentials: true }));
 
 app.use(router);
-app.use("/new", async (req, res) => {
-  const alarms = await getAlarms("Kyiv");
-  writeAlarms(alarms);
-  const weather = await getWeather("Kyiv");
-  writeWeather(weather);
+app.post("/new", async (req, res) => {
+  const regionName: string | undefined = req.body.regionName;
+  if (!regionName) {
+    return res.status(400).json({ error: "Input region name" });
+  }
+  if (regionName !== "all" && !Object.keys(REGIONS_IDS).includes(regionName)) {
+    return res.status(400).json({ error: "Invalid region name" });
+  }
+
+  if (regionName === "all") {
+    const regionNames = Object.keys(REGIONS_IDS);
+    const alarmsList = await Promise.all(regionNames.map(getAlarms));
+    writeAlarms(alarmsList.flat());
+    const weathersList = await Promise.all(regionNames.map(getWeather));
+    writeWeather(weathersList.flat());
+  } else {
+    const alarms = await getAlarms(regionName);
+    writeAlarms(alarms);
+    const weather = await getWeather(regionName);
+    writeWeather(weather);
+  }
 
   return res.send("success");
 });
