@@ -6,7 +6,7 @@ import {
 } from "../../constants/weather";
 import { REGIONS_ENG_UA } from "../../constants/constants";
 
-export const getWeather = async (regionName: string) => {
+export const getWeather = async (regionName: string): Promise<any[]> => {
   if (!Object.keys(REGIONS_LAT_LON).includes(regionName)) {
     throw new Error("Invalid region name");
   }
@@ -19,7 +19,7 @@ export const getWeather = async (regionName: string) => {
     })
   );
 
-  const hourlyWeather = response.data;
+  const hourlyWeather: any[] = response.data;
   return hourlyWeather;
 };
 
