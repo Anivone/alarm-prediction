@@ -1,13 +1,15 @@
-import isw from "../../../reports.json";
+import isw from "../../../data/reports.json";
 import { IswReport } from "../types";
 import { DocumentManager } from "./document/DocumentManager";
 import { TextTransformation } from "./utils/text/types";
 import { TfIdf } from "./tf-idf/TfIdf";
 import {
+  getCsvFilePath,
   saveToCsv_streams,
   saveToCsvTermColumns_streams,
   saveToCsvVectorMapped_streams
 } from "./utils/file/csv";
+import fs from "fs";
 
 const transformations = [
   TextTransformation.ToLowercase,
@@ -22,7 +24,7 @@ const transformations = [
 
 const iswReports = (isw as IswReport[]).slice(1);
 
-const run = async () => {
+export const evaluateTfIdf = async () => {
   const documentManagers = await Promise.all(
     iswReports
       .map((iswReport) => new DocumentManager(iswReport))
@@ -38,7 +40,10 @@ const run = async () => {
 
   console.log(documents[0].tfIdf);
 
+  const terms = Object.keys(averageTop);
+  fs.writeFileSync(getCsvFilePath("terms.json"), JSON.stringify(terms, null, 2));
+
   saveToCsvTermColumns_streams(documents, Object.keys(averageTop));
 };
 
-run().then();
+evaluateTfIdf().then();
