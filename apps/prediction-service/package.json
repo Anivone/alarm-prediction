@@ -5,6 +5,7 @@
     "start": "node dist/src/index.js",
     "start:dev": "nodemon src/index.ts",
     "start:isw": "NODE_OPTIONS=--max-old-space-size=16384 ts-node src/data-manager/reports/index.ts",
+    "start:scrap": "ts-node src/server/api/iswReportScrapper.ts",
     "start:merge": "python3 src/data-manager/merge/merge-datasets.py",
     "build": "tsc"
   },

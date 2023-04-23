@@ -22,14 +22,14 @@ export interface ApiAlarm {
 
 export interface Alarm {
   id: number,
-  regionId: string,
-  regionTitle: string,
-  regionCity: string,
+  region_id: string,
+  region_title: string,
+  region_city: string,
   all_region: number,
   start: string,
   end: string,
   clean_end: string,
-  intersection_alarm_id: undefined,
+  intersection_alarm_id: "NULL",
 }
 
 export interface RegionHistoryData {

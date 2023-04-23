@@ -14,6 +14,10 @@ import { getAlarms } from "./server/api/getAlarms";
 import { getWeather } from "./server/api/getWeather";
 import { writeAlarms, writeWeather } from "./server/api/utils";
 import { REGIONS_IDS } from "./constants/constants";
+import { getCurrentIsw } from "./server/predictions/data-handler/utils/getCurrentIsw";
+import { writeCurrentIsw } from "./server/predictions/data-handler/write/writeCurrentIsw";
+import { getWeatherUniqueDates } from "./server/predictions/data-handler/utils/getWeatherUniqueDates";
+import { saveNewData } from "./server/predictions/data-handler/saveNewData";
 
 const PORT = process.env.SERVER_PORT;
 
@@ -33,24 +37,12 @@ app.post("/new", async (req, res) => {
     return res.status(400).json({ error: "Invalid region name" });
   }
 
-  if (regionName === "all") {
-    const regionNames = Object.keys(REGIONS_IDS);
-    const alarmsList = await Promise.all(regionNames.map(getAlarms));
-    writeAlarms(alarmsList.flat());
-    const weathersList = await Promise.all(regionNames.map(getWeather));
-    writeWeather(weathersList.flat());
-  } else {
-    const alarms = await getAlarms(regionName);
-    writeAlarms(alarms);
-    const weather = await getWeather(regionName);
-    writeWeather(weather);
-  }
+  await saveNewData(regionName);
 
   return res.send("success");
 });
 
 app.listen(PORT, async () => {
   console.log("prediction-service is listening on port", PORT);
-
   // await readFileStreamed(getCsvFilePath("merged_dataset.csv"));
 });

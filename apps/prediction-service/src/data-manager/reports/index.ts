@@ -1,4 +1,5 @@
 import isw from "../../../data/reports.json";
+import terms from "../../../data/terms.json";
 import { IswReport } from "../types";
 import { DocumentManager } from "./document/DocumentManager";
 import { TextTransformation } from "./utils/text/types";
@@ -22,7 +23,7 @@ const transformations = [
   // TextTransformation.Bigram,
 ];
 
-const iswReports = (isw as IswReport[]).slice(1);
+const iswReports = (isw as IswReport[]).filter(Boolean);
 
 export const evaluateTfIdf = async () => {
   const documentManagers = await Promise.all(
@@ -35,15 +36,10 @@ export const evaluateTfIdf = async () => {
   const documents = documentManagers.map(({ document }) => document);
 
   TfIdf.calculate(documents);
-  const averageTop = TfIdf.averageTopTfIdf(documents);
-  TfIdf.mapTfIdfToTop(documents, averageTop);
 
-  console.log(documents[0].tfIdf);
+  TfIdf.mapTfIdfToDefinedTerms(documents, terms as string[])
 
-  const terms = Object.keys(averageTop);
-  fs.writeFileSync(getCsvFilePath("terms.json"), JSON.stringify(terms, null, 2));
-
-  saveToCsvTermColumns_streams(documents, Object.keys(averageTop));
+  saveToCsvTermColumns_streams(documents, terms);
 };
 
 evaluateTfIdf().then();

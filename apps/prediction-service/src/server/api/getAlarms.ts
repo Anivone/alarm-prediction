@@ -11,6 +11,7 @@ import {
   getAxiosAlertsConfig,
 } from "../../constants/alarms";
 import { Alarm, ApiAlarm, RegionHistoryData } from "./types";
+import { toCsvDateTime } from "./utils";
 
 export const getAlarms = async (regionName: string) => {
   if (!Object.keys(REGIONS_API_IDS).includes(regionName)) {
@@ -28,7 +29,9 @@ export const getAlarms = async (regionName: string) => {
         const jsonData = JSON.parse(data);
         const regionHistory: RegionHistoryData = jsonData[0];
         const alarms = regionHistory.alarms;
-        return alarms.map((alarm) => parseRegionAlarm(alarm, regionName));
+        return alarms
+          .filter(({ isContinue }) => !isContinue)
+          .map((alarm) => parseRegionAlarm(alarm, regionName));
       }
     )
   );
@@ -57,16 +60,16 @@ const parseRegionAlarm = (alarm: ApiAlarm, regionName: string): Alarm => {
   const regionTitle = REGIONS_ALTS[regionName];
   const regionCity = REGIONS_ENG_UA[regionName];
   const all_region = 0;
-  const start = alarm.startDate;
-  const end = alarm.endDate;
+  const start = toCsvDateTime(alarm.startDate);
+  const end = toCsvDateTime(alarm.endDate);
   const clean_end = end;
-  const intersection_alarm_id = undefined;
+  const intersection_alarm_id = "NULL";
 
   return {
     id,
-    regionId,
-    regionTitle,
-    regionCity,
+    region_id: regionId,
+    region_title: regionTitle,
+    region_city: regionCity,
     all_region,
     start,
     end,

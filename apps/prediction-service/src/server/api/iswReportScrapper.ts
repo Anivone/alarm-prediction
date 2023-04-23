@@ -1,12 +1,12 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
 import fs from 'fs';
+import path from "path";
 
 const pageURLs: string[] = [
     'https://www.understandingwar.org/backgrounder/ukraine-conflict-updates-2022',
     'https://www.understandingwar.org/backgrounder/ukraine-conflict-updates',
 ];
-
 async function extractReportURLs(sourceURLs: string[]): Promise<string[]> {
     const resArr: string[] = [];
 
@@ -66,7 +66,7 @@ async function processReport(url: string): Promise<Report | undefined> {
 	}
 }
 
-async function main() {
+export async function scrapIswReports() {
     const reports: (Report | undefined)[] = [];
     const reportURLs = await extractReportURLs(pageURLs);
 
@@ -83,13 +83,14 @@ async function main() {
         return (rep1?.date as Date).getDate() - (rep2?.date as Date).getDate();
     });
 
-    fs.writeFile('../../../data/reports.json', JSON.stringify(reports, null, 4), (err) => {
+    const filePath = path.join(process.cwd(), "data", "reports.json");
+    fs.writeFile(filePath, JSON.stringify(reports, null, 2), (err) => {
         if (err) {
             console.error(err);
         }
     });
 }
 
-main().then(()=> {
+scrapIswReports().then(()=> {
     console.log("Done!")
 });

@@ -5,7 +5,7 @@ import fs from "fs";
 
 const CSV_RESULT_FILE_PATH = "all_days_isw_reports_parsed.csv";
 const CSV_RESULT_VECTOR_MAPPED_FILE_PATH = "all_days_isw_reports_parsed_v2.csv";
-const CSV_SEPARATOR = ";";
+const CSV_SEPARATOR = ",";
 
 export const saveToCsv_streams = (documents: Document[]) => {
   // const allTfIdfTerms = getAllTfIdfTerms(documents);
