@@ -13,6 +13,8 @@ export const datasetConsumer = async () => {
     if (!msg) return;
     const { currentChunk, totalChunks } = msg.properties.headers;
 
+    console.log("Writing chunk ", currentChunk);
+
     if (currentChunk === 1) {
       const filepath = getDataFilePath("test.csv");
 

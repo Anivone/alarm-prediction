@@ -4,7 +4,7 @@ import { rabbitChannelPromise } from "../../rabbitmq/config";
 import { DATASET_QUEUE } from "../../rabbitmq/constants";
 import { getStats } from "./utils";
 
-export const readFileStreamed = async (path: string) => {
+export const readFileStreamed = async (path: string, fileToWrite: string) => {
   const channel = await rabbitChannelPromise;
   const fileStats = await getStats(path);
   const totalChunks = Math.ceil(fileStats.size / CHUNK_SIZE);

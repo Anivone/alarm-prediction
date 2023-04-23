@@ -1,6 +1,6 @@
 import express from "express";
 import axios from "axios";
-import { REGIONS_IDS } from "./constants";
+import { REGIONS_IDS } from "../../constants/constants";
 
 interface PredictionsRegionsBody {
   region: string;
