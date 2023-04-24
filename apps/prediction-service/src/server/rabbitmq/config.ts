@@ -1,5 +1,9 @@
 import { Channel, connect } from "amqplib";
 import { DATASET_QUEUE } from "./constants";
+import * as dotenv from "dotenv";
+import path from "path";
+
+dotenv.config({ path: path.join(process.cwd(), ".env") });
 
 const initializeRabbitMQ = async (): Promise<Channel> => {
   const connection = await connect(

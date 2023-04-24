@@ -2,6 +2,7 @@ import fs, { WriteStream } from "fs";
 import { DATASET_QUEUE } from "../constants";
 import { rabbitChannelPromise } from "../config";
 import { getDataFilePath } from "../../utils";
+import { executePredictionScript } from "../executePredictionScript";
 
 export const datasetConsumer = async () => {
   const channel = await rabbitChannelPromise;
@@ -11,21 +12,22 @@ export const datasetConsumer = async () => {
 
   await channel.consume(DATASET_QUEUE, (msg) => {
     if (!msg) return;
-    const { currentChunk, totalChunks } = msg.properties.headers;
+    const { currentChunk, totalChunks, fileToWrite } = msg.properties.headers;
 
     console.log("Writing chunk ", currentChunk);
 
     if (currentChunk === 1) {
-      const filepath = getDataFilePath("test.csv");
+      const filepath = getDataFilePath(fileToWrite);
 
       writeStream = fs.createWriteStream(filepath);
       writeStream.on("error", (err) => {
         throw err;
       });
 
-      writeStream.on("finish", () => {
+      writeStream.on("finish", async () => {
         console.log("File has successfully been written");
         writeStream = null;
+        await executePredictionScript("prediction.py");
       });
     }
 

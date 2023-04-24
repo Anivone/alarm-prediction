@@ -1,4 +1,4 @@
-import { REGIONS_IDS } from "../../../../constants/constants";
+import { REGIONS_IDS } from "../../../constants/constants";
 import { writeAlarms } from "../../../api/utils";
 import { getAlarms } from "../../../api/getAlarms";
 
