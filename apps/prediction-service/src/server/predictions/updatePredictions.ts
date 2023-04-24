@@ -7,10 +7,8 @@ export const updatePredictions = async () => {
   await saveNewData("all");
   await executeMergeScript("merge-new-datasets.py");
 
-  const dataPredFileName = "data_pred.csv";
-  const dataPredFilePath = path.join(process.cwd(), 'data', dataPredFileName);
+  const fileToWrite = "merged_dataset.csv";
+  const dataPredFilePath = path.join(process.cwd(), 'data', "data_pred.csv");
 
-
-
-  await readFileStreamed(dataPredFilePath, dataPredFileName);
+  await readFileStreamed(dataPredFilePath, fileToWrite);
 }

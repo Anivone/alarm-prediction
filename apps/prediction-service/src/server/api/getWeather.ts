@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment-timezone";
 
 import {
   getAxiosWeatherConfig,
@@ -38,16 +39,17 @@ type HourlyWeather = {
   hour_conditions: string;
   day_datetime: string;
   hour_datetimeEpoch: string;
+  is_future: boolean;
 };
 
-const SLICE_LIMIT = 12;
+const SLICE_LIMIT = 13;
 const parseWeatherResponse = (
   data: any,
   cityAddress: string
 ): HourlyWeather[] => {
   const { latitude, longitude, timezone, hourly } = data;
 
-  const currentHour = new Date().getHours();
+  const currentHour = moment().tz("Europe/Kyiv").hour();
 
   const sliceOffset = 24 + currentHour;
   const sliceStart = sliceOffset - 24;
@@ -74,7 +76,8 @@ const parseWeatherResponse = (
         hour_winddir: hourly.winddirection_80m[index],
         hour_conditions: getHourConditions(snowfall, rain, visibilityLabel),
         day_datetime: hour_datetime.split("T")[0],
-        hour_datetimeEpoch: Math.floor(new Date(hour_datetime).getTime() / 1000).toString()
+        hour_datetimeEpoch: Math.floor(new Date(hour_datetime).getTime() / 1000).toString(),
+        is_future: Boolean(moment(hour_datetime).tz("Europe/Kyiv") > moment().tz("Europe/Kyiv")),
       } as HourlyWeather;
     });
 };

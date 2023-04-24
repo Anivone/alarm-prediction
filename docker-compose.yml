@@ -9,13 +9,27 @@ services:
       - SERVER_PORT=3000
       - ML_SERVICE_HOST=ml-service
       - ML_SERVICE_PORT=3001
+      - RABBITMQ_USER=user
+      - RABBITMQ_PASSWORD=password
+      - RABBITMQ_HOST=rabbitmq
+      - ALARMS_API_KEY=888fbe4f:425a89be3ec0c27b8f4f61218b18ef4d
     depends_on:
       - ml-service
+      - rabbitmq
   ml-service:
     build: ./apps/ml-service
     ports:
       - "3001:3001"
+    environment:
+      - SERVER_PORT=3000
+      - ML_SERVICE_HOST=ml-service
+      - ML_SERVICE_PORT=3001
+      - RABBITMQ_USER=user
+      - RABBITMQ_PASSWORD=password
+      - RABBITMQ_HOST=rabbitmq
     restart: unless-stopped
+    depends_on:
+      - rabbitmq
   rabbitmq:
     image: rabbitmq
     ports:

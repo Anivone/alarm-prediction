@@ -7,7 +7,7 @@ export const preparePredictionResponse = (predictionResults: PredictionResult[])
   const fileData = Buffer.from(fs.readFileSync(filePath)).toString("utf-8");
   const [last_prediction_time] = JSON.parse(fileData);
   return {
-    last_model_train_time: new Date().toISOString(),
+    last_model_train_time: "2023-04-24T16:23:11.296Z",
     last_prediction_time,
     regions_forecast: preparePredictionResults(predictionResults),
   }

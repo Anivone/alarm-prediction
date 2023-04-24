@@ -7,6 +7,8 @@ dotenv.config({ path: path.join(process.cwd(), ".env") });
 import cors from "cors";
 import predictionsRouter from "./controllers/predictions";
 import { setupConsumers } from "./rabbitmq/config";
+import { executePredictionScript } from "./rabbitmq/executePredictionScript";
+import { spawnSync } from "child_process";
 
 const PORT = Number(process.env.ML_SERVICE_PORT);
 const app = express();

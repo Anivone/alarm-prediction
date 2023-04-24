@@ -24,6 +24,6 @@ app.use(predictionsRouter);
 
 app.listen(PORT, async () => {
   console.log("prediction-service is listening on port", PORT);
-  await writeLastPredictionTime(new Date().toISOString());
+  // await writeLastPredictionTime(new Date().toISOString());
   // await updatePredictions();
 });

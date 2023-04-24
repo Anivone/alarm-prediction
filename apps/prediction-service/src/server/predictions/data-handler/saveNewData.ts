@@ -4,6 +4,7 @@ import { writeCurrentIsw } from "./write/writeCurrentIsw";
 
 export const saveNewData = async (regionName: string) => {
   await writeCurrentAlarms(regionName);
-  await writeCurrentWeather(regionName);
-  await writeCurrentIsw();
+  writeCurrentWeather(regionName).then(async () => {
+    await writeCurrentIsw();
+  });
 }
