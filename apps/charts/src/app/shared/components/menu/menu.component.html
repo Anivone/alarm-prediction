@@ -1,0 +1,14 @@
+<div class="main-container">
+    <div class="header">
+        <span class="header__title">Alarm prediction</span>
+        <img routerLink="/main" class="header__icon" src="../../../../assets/images/alarm.png" alt="">
+    </div>
+    <div class="menu-wrapper">
+        <div class="item" [ngClass]="{'active': activeTab === 'statistic'}" routerLink="/statistic">
+            Statistic
+        </div>
+        <div class="item" [ngClass]="{'active': activeTab === 'prediction'}" routerLink="/prediction">
+            Prediction
+        </div>
+    </div>
+</div>

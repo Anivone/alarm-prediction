@@ -1,137 +1,148 @@
+<!--<mat-toolbar color="primary" class="header">-->
+<!--    <mat-toolbar-row class="header__row">-->
+<!--        <div class="header__row__actions">-->
+<!--            <button mat-stroked-button routerLink="/statistic" routerLinkActive="active">Statistics</button>-->
+<!--            <button mat-raised-button routerLink="/prediction" routerLinkActive="active">Prediction</button>-->
+<!--        </div>-->
+<!--        <mat-icon class="icon">ssid_chart</mat-icon>-->
+<!--    </mat-toolbar-row>-->
+<!--</mat-toolbar>-->
+<app-menu></app-menu>
+
 <div class="main-container" [formGroup]="form">
-  <div class="fields-wrapper" formGroupName="alarmForm">
-    <mat-form-field appearance="outline">
-      <mat-label>City</mat-label>
-      <mat-select formControlName="city" #citySelect>
-        <mat-option *ngFor="let city of cities" [value]="city">
-          {{city}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <div class="date-field">
+    <label class="label">Alarms statistic</label>
+    <div class="fields-wrapper" formGroupName="alarmForm">
+        <mat-form-field appearance="outline">
+            <mat-label>City</mat-label>
+            <mat-select formControlName="city" #citySelect>
+                <mat-option *ngFor="let city of cities" [value]="city">
+                    {{city}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div class="date-field">
 
-      <mat-form-field appearance="outline">
-        <mat-label>Start date (UTC)</mat-label>
-        <input
-          #startDate
-          matInput
-          [owlDateTime]="start_date"
-          formControlName="dateStart"
-          [max]="form.get('dateEnd')?.value"
-          required
-        >
-        <button
-          mat-icon-button
-          matSuffix
-          color="primary"
-          type="button"
-          class="trigger"
-          [owlDateTimeTrigger]="start_date"
-        >
-          <mat-icon>date_range</mat-icon>
-        </button>
-      </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Start date (UTC)</mat-label>
+                <input
+                    #startDate
+                    matInput
+                    [owlDateTime]="start_date"
+                    formControlName="dateStart"
+                    [max]="form.get('dateEnd')?.value"
+                    required
+                >
+                <button
+                        mat-icon-button
+                        matSuffix
+                        color="primary"
+                        type="button"
+                        class="trigger"
+                        [owlDateTimeTrigger]="start_date"
+                >
+                    <mat-icon>date_range</mat-icon>
+                </button>
+            </mat-form-field>
 
-      <owl-date-time
-        #start_date
-        [hour12Timer]="false"
-        [showSecondsTimer]="true"
-        panelClass="date-timer-default"
-      ></owl-date-time>
+            <owl-date-time
+                #start_date
+                [hour12Timer]="false"
+                [showSecondsTimer]="true"
+                panelClass="date-timer-default"
+            ></owl-date-time>
+        </div>
+        <div class="date-field">
+
+            <mat-form-field appearance="outline">
+                <mat-label>End date (UTC)</mat-label>
+                <input
+                    #endDate
+                    matInput
+                    [owlDateTime]="end_date"
+                    formControlName="dateEnd"
+                    [min]="form.get('dateStart')?.value"
+                    required
+                >
+                <button
+                        mat-icon-button
+                        matSuffix
+                        color="primary"
+                        type="button"
+                        class="trigger"
+                        [owlDateTimeTrigger]="end_date"
+                >
+                    <mat-icon>date_range</mat-icon>
+                </button>
+            </mat-form-field>
+
+            <owl-date-time
+                #end_date
+                [hour12Timer]="false"
+                [showSecondsTimer]="true"
+                panelClass="date-timer-default"
+            ></owl-date-time>
+        </div>
     </div>
-    <div class="date-field">
-
-      <mat-form-field appearance="outline">
-        <mat-label>End date (UTC)</mat-label>
-        <input
-          #endDate
-          matInput
-          [owlDateTime]="end_date"
-          formControlName="dateEnd"
-          [min]="form.get('dateStart')?.value"
-          required
-        >
-        <button
-          mat-icon-button
-          matSuffix
-          color="primary"
-          type="button"
-          class="trigger"
-          [owlDateTimeTrigger]="end_date"
-        >
-          <mat-icon>date_range</mat-icon>
+    <div class="action-wrapper">
+        <button [disabled]="!mergedData" mat-flat-button color="primary"
+                (click)="initCharts()">
+            Apply
         </button>
-      </mat-form-field>
-
-      <owl-date-time
-        #end_date
-        [hour12Timer]="false"
-        [showSecondsTimer]="true"
-        panelClass="date-timer-default"
-      ></owl-date-time>
     </div>
-  </div>
-  <div class="action-wrapper">
-    <button [disabled]="!mergedData" mat-flat-button color="primary"
-            (click)="initCharts()">
-      Apply
-    </button>
-  </div>
-  <app-null-values-line-chart [data]="nullValuesChart.temperatureData"
-                              [city]="nullValuesChart.city"
-                              [startDate]="nullValuesChart.startDate"
-                              [endDate]="nullValuesChart.endDate"
-                              [parameter]="{title: 'Temperature', units: 'Celsius °C'}"
-                              *ngIf="nullValuesChart.temperatureData.length" class="mt-20">
+    <app-null-values-line-chart [data]="nullValuesChart.temperatureData"
+                                [city]="nullValuesChart.city"
+                                [startDate]="nullValuesChart.startDate"
+                                [endDate]="nullValuesChart.endDate"
+                                [parameter]="{title: 'Temperature', units: 'Celsius °C'}"
+                                *ngIf="nullValuesChart.temperatureData.length" class="mt-20">
+    </app-null-values-line-chart>
+    <app-null-values-line-chart [data]="nullValuesChart.windSpeedData"
+                                [city]="nullValuesChart.city"
+                                [startDate]="nullValuesChart.startDate"
+                                [endDate]="nullValuesChart.endDate"
+                                [parameter]="{title: 'Wind Speed', units: 'Km/h'}"
+                                *ngIf="nullValuesChart.windSpeedData.length" class="mt-20">
 
-  </app-null-values-line-chart>
-  <app-null-values-line-chart [data]="nullValuesChart.windSpeedData"
-                              [city]="nullValuesChart.city"
-                              [startDate]="nullValuesChart.startDate"
-                              [endDate]="nullValuesChart.endDate"
-                              [parameter]="{title: 'Wind Speed', units: 'Km/h'}"
-                              *ngIf="nullValuesChart.windSpeedData.length" class="mt-20">
+    </app-null-values-line-chart>
+    <app-null-values-line-chart [data]="nullValuesChart.cloudCoverData"
+                                [city]="nullValuesChart.city"
+                                [startDate]="nullValuesChart.startDate"
+                                [endDate]="nullValuesChart.endDate"
+                                [parameter]="{title: 'Cloud cover', units: 'Percentage %'}"
+                                *ngIf="nullValuesChart.cloudCoverData.length" class="mt-20">
 
-  </app-null-values-line-chart>
-  <app-null-values-line-chart [data]="nullValuesChart.cloudCoverData"
-                              [city]="nullValuesChart.city"
-                              [startDate]="nullValuesChart.startDate"
-                              [endDate]="nullValuesChart.endDate"
-                              [parameter]="{title: 'Cloud cover', units: 'Percentage %'}"
-                              *ngIf="nullValuesChart.cloudCoverData.length" class="mt-20">
+    </app-null-values-line-chart>
+    <app-pie-chart *ngIf="this.pieChart.series.length" [data]="pieChart" class="mt-20"></app-pie-chart>
+    <app-column-chart *ngIf="avgPrecipChart.series.length" class="mt-20"
+                      [series]="avgPrecipChart.series"
+                      [labels]="avgPrecipChart.labels"
+                      [title]="avgPrecipChart.title"
+                      [color]="avgPrecipChart.color"
+    ></app-column-chart>
+    <app-column-chart *ngIf="avgTempChart.series.length" class="mt-20"
+                      [series]="avgTempChart.series"
+                      [labels]="avgTempChart.labels"
+                      [title]="avgTempChart.title"
+                      [color]="avgTempChart.color"
+    ></app-column-chart>
+    <app-column-chart *ngIf="alarmsNumberChart.series.length" class="mt-20"
+                      [series]="alarmsNumberChart.series"
+                      [labels]="alarmsNumberChart.labels"
+                      [title]="alarmsNumberChart.title"
+                      [color]="alarmsNumberChart.color">
+    </app-column-chart>
+    <app-column-chart *ngIf="weatherConditionNumberChart.series.length" class="mt-20"
+                      [series]="weatherConditionNumberChart.series"
+                      [labels]="weatherConditionNumberChart.labels"
+                      [title]="weatherConditionNumberChart.title"
+                      [color]="weatherConditionNumberChart.color">
+    </app-column-chart>
 
-  </app-null-values-line-chart>
-  <app-pie-chart *ngIf="this.pieChart.series.length" [data]="pieChart" class="mt-20"></app-pie-chart>
-  <app-column-chart *ngIf="avgPrecipChart.series.length" class="mt-20"
-                    [series]="avgPrecipChart.series"
-                    [labels]="avgPrecipChart.labels"
-                    [title]="avgPrecipChart.title"
-                    [color]="avgPrecipChart.color"
-  ></app-column-chart>
-  <app-column-chart *ngIf="avgTempChart.series.length" class="mt-20"
-                    [series]="avgTempChart.series"
-                    [labels]="avgTempChart.labels"
-                    [title]="avgTempChart.title"
-                    [color]="avgTempChart.color"
-  ></app-column-chart>
-  <app-column-chart *ngIf="alarmsNumberChart.series.length" class="mt-20"
-                    [series]="alarmsNumberChart.series"
-                    [labels]="alarmsNumberChart.labels"
-                    [title]="alarmsNumberChart.title"
-                    [color]="alarmsNumberChart.color">
-  </app-column-chart>
-  <app-column-chart *ngIf="weatherConditionNumberChart.series.length" class="mt-20"
-                    [series]="weatherConditionNumberChart.series"
-                    [labels]="weatherConditionNumberChart.labels"
-                    [title]="weatherConditionNumberChart.title"
-                    [color]="weatherConditionNumberChart.color">
-  </app-column-chart>
-
-  <app-column-chart *ngIf="tfIdfValuesChart.series.length" class="mt-20"
-                    [series]="tfIdfValuesChart.series"
-                    [labels]="tfIdfValuesChart.labels"
-                    [title]="tfIdfValuesChart.title"
-                    [color]="tfIdfValuesChart.color">
-  </app-column-chart>
+    <app-column-chart *ngIf="tfIdfValuesChart.series.length" class="mt-20"
+                      [series]="tfIdfValuesChart.series"
+                      [labels]="tfIdfValuesChart.labels"
+                      [title]="tfIdfValuesChart.title"
+                      [color]="tfIdfValuesChart.color">
+    </app-column-chart>
 </div>
 

@@ -1,0 +1,96 @@
+$bg-width: 1920px;
+$bg-height: 1080px;
+
+.main-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background: url("../../assets/images/main-background.png") repeat 0 0;
+  -webkit-animation: bg-scrolling-reverse 14s infinite; /* Safari 4+ */
+  -moz-animation:    bg-scrolling-reverse 14s infinite; /* Fx 5+ */
+  -o-animation:      bg-scrolling-reverse 14s infinite; /* Opera 12+ */
+  animation:         bg-scrolling-reverse 14s infinite; /* IE 10+ */
+  -webkit-animation-timing-function: linear;
+  -moz-animation-timing-function:    linear;
+  -o-animation-timing-function:      linear;
+  animation-timing-function:         linear;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    //background: #d2d2d2;
+    padding: 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(40px);
+    background: #030101a8;
+
+    .page-title {
+      font-size: 42px;
+      color: rgba(255, 250, 250, 0.93);
+      margin-bottom: 30px;
+    }
+
+    .team-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      .secondary-label {
+        color: #ffffff
+      }
+      .member {
+        font-size: 18px;
+        font-weight: 400;
+        color: #ffffff;
+        cursor: pointer;
+
+        &.lead {
+          font-weight: 900;
+        }
+
+        &:hover {
+          transition: transform .2s linear;
+          transform: scale(1.2);
+
+        }
+      }
+    }
+      .actions-wrapper {
+        margin-top: 40px;
+        display: flex;
+        gap: 20px;
+        button {
+          width: 190px;
+          height: 50px;
+        }
+      }
+  }
+}
+@-webkit-keyframes bg-scrolling-reverse {
+  100% { background-position: $bg-width $bg-height; }
+}
+@-moz-keyframes    bg-scrolling-reverse {
+  100% { background-position: $bg-width $bg-height; }
+}
+@-o-keyframes      bg-scrolling-reverse {
+  100% { background-position: $bg-width $bg-height; }
+}
+@keyframes         bg-scrolling-reverse {
+  100% { background-position: $bg-width $bg-height; }
+}
+
+@-webkit-keyframes bg-scrolling {
+  0% { background-position: $bg-width $bg-height; }
+}
+@-moz-keyframes    bg-scrolling {
+  0% { background-position: $bg-width $bg-height; }
+}
+@-o-keyframes      bg-scrolling {
+  0% { background-position: $bg-width $bg-height; }
+}
+@keyframes         bg-scrolling {
+  0% { background-position: $bg-width $bg-height; }
+}
