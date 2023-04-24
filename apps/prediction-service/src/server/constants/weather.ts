@@ -50,7 +50,7 @@ export const getAxiosWeatherConfig = (
       "temperature_2m,precipitation,cloudcover,windspeed_10m,winddirection_80m,rain,snowfall",
     past_days: 1,
     forecast_days: 2,
-    timezone: "Europe/Berlin"
+    timezone: "auto"
   },
   transformResponse,
 });

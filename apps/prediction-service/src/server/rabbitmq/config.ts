@@ -7,7 +7,7 @@ dotenv.config({ path: path.join(process.cwd(), ".env") });
 
 const initializeRabbitMQ = async (): Promise<Channel> => {
   const connection = await connect(
-    `amqp://${process.env.RABBITMQ_USER}:${process.env.RABBITMQ_PASSWORD}@localhost`
+    `amqp://${process.env.RABBITMQ_USER}:${process.env.RABBITMQ_PASSWORD}@${process.env.RABBITMQ_HOST}`
   );
   console.log("Connected to RabbitMQ!");
 

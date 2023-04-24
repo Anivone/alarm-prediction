@@ -27,7 +27,7 @@ export const datasetConsumer = async () => {
       writeStream.on("finish", async () => {
         console.log("File has successfully been written");
         writeStream = null;
-        await executePredictionScript("prediction.py");
+        executePredictionScript("main.py");
       });
     }
 
