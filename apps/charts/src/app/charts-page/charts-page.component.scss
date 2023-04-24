@@ -1,9 +1,33 @@
-.main-container{
+:host {
+  display: flex;
+  height: 100%;
+}
+
+.header {
+  &__row {
+    display: flex;
+    justify-content: space-between;
+
+    &__actions {
+      display: flex;
+      gap: 10px;
+    }
+  }
+}
+.icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+
+.main-container {
   padding: 20px 40px;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
+
 .fields-wrapper {
   display: flex;
   gap: 20px;

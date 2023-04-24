@@ -1,0 +1,96 @@
+:host {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+
+.header {
+  &__row {
+    display: flex;
+    justify-content: space-between;
+
+    &__actions {
+      display: flex;
+      gap: 10px;
+    }
+  }
+}
+
+.icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+.main-container {
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .fields-wrapper {
+    display: flex;
+    gap: 20px;
+
+  }
+}
+
+.prediction-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .prediction-content {
+    border-radius: 5px;
+    max-width: 100%;
+    padding: 20px 10px;
+    border: 1px solid #cecece;
+
+    .hours-wrapper {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px;
+      width: calc(100% - 20px);
+
+
+      .hour-point {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: calc(100% / 12);
+
+        .hour-label {
+          font-size: 14px;
+          color: lightgray;
+        }
+
+        .dot-label {
+          width: 10px;
+          height: 10px;
+          border-radius: 10px;
+          background: green;
+
+          &.red {
+            background: red;
+          }
+        }
+
+        &:not(:last-child):after {
+          position: relative;
+          top: -5px;
+          content: '';
+          min-width: 50%;
+          height: 0;
+          border: 0.1px solid #d2d2d2;
+          border-radius: 5px;
+          top: -5px;
+          left: 60%;
+        }
+      }
+
+    }
+  }
+
+}

@@ -1,16 +1,63 @@
+@font-face {
+  font-family: Circe;
+  src: url("~src/assets/fonts/Circe-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Circe;
+  src: url("~src/assets/fonts/Circe-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Circe;
+  src: url("~src/assets/fonts/Circe-Bold.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Circe, sans-serif;
+}
+
 html, body {
+  overflow: hidden;
   height: 100%;
 }
 
 .mt-20 {
   margin-top: 20px;
 }
+
 .mt-10 {
   margin-top: 10px;
 }
+
 .m-10 {
   margin: 10px;
 }
+
 .p-10 {
- padding: 10px;
+  padding: 10px;
 }
+
+.mat-mdc-outlined-button {
+  border: 1px solid !important;
+}
+
+.label {
+  font-size: 24px;
+  font-weight: 700;
+}
+.label-sm {
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
