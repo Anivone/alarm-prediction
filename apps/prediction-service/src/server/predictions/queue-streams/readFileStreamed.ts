@@ -5,6 +5,7 @@ import { DATASET_QUEUE } from "../../rabbitmq/constants";
 import { getStats } from "./utils";
 
 export const readFileStreamed = async (path: string, fileToWrite: string) => {
+  console.log(path, fileToWrite);
   const channel = await rabbitChannelPromise;
   const fileStats = await getStats(path);
   const totalChunks = Math.ceil(fileStats.size / CHUNK_SIZE);
@@ -19,7 +20,7 @@ export const readFileStreamed = async (path: string, fileToWrite: string) => {
     console.log(`Processing chunk ${currentChunk}`);
 
     channel.sendToQueue(DATASET_QUEUE, Buffer.from(chunk), {
-      headers: { currentChunk, totalChunks },
+      headers: { currentChunk, totalChunks, fileToWrite },
     });
   });
 

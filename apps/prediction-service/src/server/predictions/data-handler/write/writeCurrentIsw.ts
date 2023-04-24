@@ -5,10 +5,8 @@ import { toCsvString } from "../../../api/utils";
 
 export const writeCurrentIsw = async () => {
   const weatherUniqueDates = await getWeatherUniqueDates();
-  console.log(weatherUniqueDates);
   const iswReports = await getCurrentIsw(weatherUniqueDates);
 
-  console.log(iswReports);
   if (!iswReports.length) return;
 
   const columns = toCsvString(Object.keys(iswReports[0]));

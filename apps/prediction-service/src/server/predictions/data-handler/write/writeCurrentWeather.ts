@@ -1,4 +1,4 @@
-import { REGIONS_IDS } from "../../../../constants/constants";
+import { REGIONS_IDS } from "../../../constants/constants";
 import { writeWeather } from "../../../api/utils";
 import { getWeather } from "../../../api/getWeather";
 

@@ -3,8 +3,8 @@ import axios from "axios";
 import {
   getAxiosWeatherConfig,
   REGIONS_LAT_LON,
-} from "../../constants/weather";
-import { REGIONS_ENG_UA } from "../../constants/constants";
+} from "../constants/weather";
+import { REGIONS_ENG_UA } from "../constants/constants";
 import { toCsvDateTime } from "./utils";
 
 export const getWeather = async (regionName: string): Promise<any[]> => {

@@ -5,16 +5,16 @@ import {
   REGIONS_API_IDS,
   REGIONS_ENG_UA,
   REGIONS_IDS,
-} from "../../constants/constants";
+} from "../constants/constants";
 import {
   ALERTS_API_ENDPOINT,
   getAxiosAlertsConfig,
-} from "../../constants/alarms";
+} from "../constants/alarms";
 import { Alarm, ApiAlarm, RegionHistoryData } from "./types";
 import { toCsvDateTime } from "./utils";
 
 export const getAlarms = async (regionName: string) => {
-  if (!Object.keys(REGIONS_API_IDS).includes(regionName)) {
+  if (regionName !== "all" && !Object.keys(REGIONS_API_IDS).includes(regionName)) {
     throw new Error("Invalid region name");
   }
 
