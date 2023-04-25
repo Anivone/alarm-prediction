@@ -47,7 +47,7 @@ interface Report {
 async function processReport(url: string): Promise<Report | undefined> {
 	const checkedUrl = url.startsWith('http') ? url : `http://${url}`
     try {
-		const docRes = await axios.get(checkedUrl);
+		const docRes = await axios.get(checkedUrl, { timeout: 2000 });
 		const $ = cheerio.load(docRes.data);
 		
 		const rawDate = $("span[property='dc:date dc:created']").attr('content');
