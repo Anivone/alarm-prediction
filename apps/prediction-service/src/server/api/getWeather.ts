@@ -1,10 +1,7 @@
 import axios from "axios";
 import moment from "moment-timezone";
 
-import {
-  getAxiosWeatherConfig,
-  REGIONS_LAT_LON,
-} from "../constants/weather";
+import { getAxiosWeatherConfig, REGIONS_LAT_LON } from "../constants/weather";
 import { REGIONS_ENG_UA } from "../constants/constants";
 import { toCsvDateTime } from "./utils";
 
@@ -63,6 +60,24 @@ const parseWeatherResponse = (
       const cloudCover = Number(hourly.cloudcover[index]);
       const visibilityLabel = getVisibilityLabel(cloudCover);
 
+      const getIsFuture = () => {
+        const isUkraineTz = process.env.TZ === "Europe/Kyiv";
+        if (isUkraineTz) {
+          const targetDate = moment(hour_datetime);
+          const currentDate = moment();
+
+          targetDate.add(3, "hour");
+          currentDate.add(3, "hour");
+
+          return Boolean(targetDate > currentDate);
+        } else {
+          const targetDate = new Date(hour_datetime);
+          const currentDate = new Date();
+
+          return Boolean(targetDate > currentDate);
+        }
+      };
+
       return {
         city_resolvedAddress: cityAddress,
         latitude,
@@ -76,8 +91,10 @@ const parseWeatherResponse = (
         hour_winddir: hourly.winddirection_80m[index],
         hour_conditions: getHourConditions(snowfall, rain, visibilityLabel),
         day_datetime: hour_datetime.split("T")[0],
-        hour_datetimeEpoch: Math.floor(new Date(hour_datetime).getTime() / 1000).toString(),
-        is_future: Boolean(moment(hour_datetime).tz("Europe/Kyiv") > moment().tz("Europe/Kyiv")),
+        hour_datetimeEpoch: Math.floor(
+          new Date(hour_datetime).getTime() / 1000
+        ).toString(),
+        is_future: getIsFuture(),
       } as HourlyWeather;
     });
 };

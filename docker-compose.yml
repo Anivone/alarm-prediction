@@ -13,6 +13,7 @@ services:
       - RABBITMQ_PASSWORD=password
       - RABBITMQ_HOST=rabbitmq
       - ALARMS_API_KEY=888fbe4f:425a89be3ec0c27b8f4f61218b18ef4d
+      - TZ=Europe/Kyiv
     depends_on:
       - ml-service
       - rabbitmq
@@ -27,6 +28,7 @@ services:
       - RABBITMQ_USER=user
       - RABBITMQ_PASSWORD=password
       - RABBITMQ_HOST=rabbitmq
+      - TZ=Europe/Kyiv
     restart: unless-stopped
     depends_on:
       - rabbitmq
