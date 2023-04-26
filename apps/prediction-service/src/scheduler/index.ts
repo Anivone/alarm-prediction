@@ -1,9 +1,9 @@
 import { scheduleIswScrapper } from "./scheduleIswScrapper";
-import { scheduleTfIdf } from "./scheduleTfIdf";
+import { scheduleUpdate } from "./scheduleUpdate";
 
 const initializeScheduler = () => {
   scheduleIswScrapper();
-  scheduleTfIdf();
+  scheduleUpdate();
 };
 
 export default initializeScheduler;
