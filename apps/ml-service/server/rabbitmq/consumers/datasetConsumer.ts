@@ -27,14 +27,15 @@ export const datasetConsumer = async () => {
       writeStream.on("finish", async () => {
         console.log("File has successfully been written");
         writeStream = null;
-        executePredictionScript("main.py");
       });
     }
 
     const chunk = msg.content.toString("utf-8");
 
     if (currentChunk === totalChunks) {
-      writeStream?.end(chunk);
+      writeStream?.end(chunk, () => {
+        executePredictionScript("main.py");
+      });
     } else {
       writeStream?.write(chunk);
     }
