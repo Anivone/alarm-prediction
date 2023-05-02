@@ -10,13 +10,13 @@ Application consists of 2 services: Prediction and ML service.
 <img width="300" alt="image" src="https://user-images.githubusercontent.com/43621483/235786875-8f93c21c-6290-46a0-9738-6d2de0114079.png">
 
 * Prediction service has the main and the only open to the world server which sends responses to clients' requests. In addition, it is 
-responsible for fethcing, processing and sending necessary data to ML service through message queue (RabbitMQ).
+responsible for fetching, processing and sending necessary data to ML service through message queue (RabbitMQ).
 
 * ML service is responsible for training models, making predictions, and sending them as responses to Prediction service's requests.
 It also has an HTTP server to establish communication with Prediction service.
 
 Predictions get updated every hour: Prediction service fetches and processes new data, makes a new merged dataset and sends it
-by chunks to ML service, which in turn receives the file, initiates a process of updating predictions for all of the regions
+by chunks through message queue to ML service, which in turn receives the file, initiates a process of updating predictions for all of the regions
 for the next 12 hours and saves the results in a file.
 
 Application also serves UI which looks like this:
