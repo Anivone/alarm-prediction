@@ -6,3 +6,4 @@ data/*
 !/data/regions.csv
 !/data/last_prediction_time.json
 !/data/all_days_isw_reports_parsed.csv
+venv/
